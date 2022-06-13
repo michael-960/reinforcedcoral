@@ -33,7 +33,7 @@ public class ProblemMineSweeper extends Problem {
         this.panelMineSweeper.bindPanelGame(panelGame);
 
         panelGame.parent.switchPanel(panelGame, panelGame);
-        panelGame.add(this.panelMineSweeper, "0, 1, 5, 4");
+        panelGame.add(this.panelMineSweeper, "0, 1, " + (panelGame.getPartitionNumber() - 1) + ", 1");
         panelGame.currentMinigamePanel = this.panelMineSweeper;
 
         this.panelMineSweeper.start();
@@ -64,6 +64,11 @@ public class ProblemMineSweeper extends Problem {
         arrayArgs.put(jsonArg4);
         jsonMatch.put("args", arrayArgs);
         return jsonMatch;
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
     }
 }
 

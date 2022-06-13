@@ -4,10 +4,12 @@ import com.fieryslug.reinforcedcoral.core.Category;
 import com.fieryslug.reinforcedcoral.core.ProblemSet;
 import com.fieryslug.reinforcedcoral.core.problem.Problem;
 import com.fieryslug.reinforcedcoral.panel.PanelInterior;
+import com.fieryslug.reinforcedcoral.panel.PanelPrime;
 import com.fieryslug.reinforcedcoral.util.FontRef;
 import com.fieryslug.reinforcedcoral.util.FuncBox;
 import com.fieryslug.reinforcedcoral.util.Preference;
 import com.fieryslug.reinforcedcoral.util.TextureHolder;
+import com.fieryslug.reinforcedcoral.util.layout.ModifiedTableLayout;
 import com.fieryslug.reinforcedcoral.widget.button.ButtonColorized;
 import com.fieryslug.reinforcedcoral.widget.button.ButtonCoral;
 import com.fieryslug.reinforcedcoral.widget.button.ButtonProblem;
@@ -38,7 +40,7 @@ public class PanelEditDependency extends PanelInterior {
     private JLabel labelTitle;
     private JLabel labelProbName;
     private JLabel labelDependency;
-    private ButtonCoral buttonBack;
+    private ButtonCoral buttonSave;
     private JLabel labelSave;
     private Map<Problem, Set<Problem>> dependTemp;
     private int dependsCount;
@@ -60,17 +62,16 @@ public class PanelEditDependency extends PanelInterior {
         this.labelDependency = new JLabel("    dependencies", SwingConstants.LEFT);
         this.labelDependency.setFont(FontRef.getFont(FontRef.NEMESIS, Font.PLAIN, panelEdit.parent.isFullScreen ? 45 : 30));
 
-        this.buttonBack = new ButtonCoral(images[0], images[1], images[2]);
+        this.buttonSave = new ButtonCoral(images[0], images[1], images[2]);
         this.labelSave = new JLabel("save", SwingConstants.LEFT);
 
-        this.buttonBack.addActionListener(new ActionListener() {
+        this.buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                panelEdit.exit();
-                panelEdit.currentPanelInterior = panelEdit.panelEditGame;
-                panelEdit.enter();
-                panelEdit.refresh();
-                panelEdit.repaint();
+                panelEdit.setCurrentPanelInterior(panelEdit.panelEditGame);
+                panelEdit.switchSelf();
+                panelEdit.panelEditGame.setCurrProblem(problem);
+                panelEdit.panelEditGame.inflateEditSlotPanel();
             }
         });
     }
@@ -79,9 +80,9 @@ public class PanelEditDependency extends PanelInterior {
     public void enter() {
 
         double[][] size = new double[][]{FuncBox.createDivisionArray(targetSet.getCategoriesCount()), FuncBox.createDivisionArray(targetSet.getProblemsPerCategory() + 1)};
-        setLayout(new TableLayout(size));
+        setLayout(new ModifiedTableLayout(size));
 
-        labelDependency.setText("   dependencies  (" + currProblem.dependences.size() + ")");
+        labelDependency.setText("   dependencies  (" + currProblem.getDependencies().size() + ")");
         labelTitle.setText("    editting:");
         labelProbName.setText(currProblem.name);
 
@@ -94,7 +95,7 @@ public class PanelEditDependency extends PanelInterior {
             this.labelCategoryMap.put(labelCat, category);
             add(labelCat, i + ", " + 0);
 
-            for (Problem problem : category.problems) {
+            for (Problem problem : category.getProblems()) {
 
                 ButtonProblem button = new ButtonColorized();
                 String constraints = i + ", " + j;
@@ -108,14 +109,14 @@ public class PanelEditDependency extends PanelInterior {
                     @Override
                     public void mouseClicked(MouseEvent actionEvent) {
                         if(problem != currProblem) {
-                            if (currProblem.dependences.contains(problem)) {
-                                currProblem.dependences.remove(problem);
+                            if (currProblem.getDependencies().contains(problem)) {
+                                currProblem.getDependencies().remove(problem);
                                 button.setState(0);
                             } else {
-                                currProblem.dependences.add(problem);
+                                currProblem.getDependencies().add(problem);
                                 button.setState(-1);
                             }
-                            labelDependency.setText("   dependencies  (" + currProblem.dependences.size() + ")");
+                            labelDependency.setText("   dependencies  (" + currProblem.getDependencies().size() + ")");
                         }
                     }
                 });
@@ -131,7 +132,7 @@ public class PanelEditDependency extends PanelInterior {
                 if (this.currProblem == problem) {
                     button.setState(1);
                 }
-                if (this.currProblem.dependences.contains(problem)) {
+                if (this.currProblem.getDependencies().contains(problem)) {
                     button.setState(-1);
                 }
 
@@ -140,11 +141,11 @@ public class PanelEditDependency extends PanelInterior {
             i++;
             j = 1;
         }
-        panelEdit.panels[0].add(this.labelDependency, "0, 0, 1, 0");
-        panelEdit.panels[0].add(this.buttonBack, "0, 2");
+        panelEdit.panels[1].add(this.labelDependency, "0, 0, 1, 0");
+        panelEdit.panels[0].add(this.buttonSave, "0, 2");
         panelEdit.panels[0].add(this.labelSave, "1, 2");
-        panelEdit.panels[1].add(this.labelTitle, "0, 0, 0, 0");
-        panelEdit.panels[1].add(this.labelProbName, "1, 0, 3, 0");
+        panelEdit.panels[0].add(this.labelTitle, "0, 0, 0, 0");
+        panelEdit.panels[0].add(this.labelProbName, "1, 0, 3, 0");
 
         applyTexture(TextureHolder.getInstance());
         SwingUtilities.invokeLater(new Runnable() {
@@ -172,7 +173,7 @@ public class PanelEditDependency extends PanelInterior {
                 button.setBackground(holder.getColor("problem_disabled"));
                 button.setBorder(FuncBox.getLineBorder(holder.getColor("problem_disabled_border"), 3));
                 button.label.setForeground(holder.getColor("problem_disabled_text"));
-            } else if (this.currProblem.dependences.contains(problem)) {
+            } else if (this.currProblem.getDependencies().contains(problem)) {
                 System.out.println(problem.name);
                 button.setBackground(holder.getColor("problem_preenabled"));
                 button.setBorder(FuncBox.getLineBorder(holder.getColor("problem_preenabled_border"), 3));
@@ -195,7 +196,7 @@ public class PanelEditDependency extends PanelInterior {
 
         this.labelDependency.setForeground(holder.getColor("teamu_text"));
         this.labelSave.setForeground(holder.getColor("teamu_score"));
-        this.buttonBack.setImages(images[0], images[1], images[2]);
+        this.buttonSave.setImages(images[0], images[1], images[2]);
     }
 
     @Override
@@ -216,7 +217,7 @@ public class PanelEditDependency extends PanelInterior {
         int buttonX = panelEdit.panels[0].getWidth() / 4;
         int buttonYs = panelEdit.panels[0].getHeight() / 10;
 
-        this.buttonBack.resizeIconToSquare(buttonX, buttonYs * 3, 0.85);
+        this.buttonSave.resizeIconToSquare(buttonX, buttonYs * 3, 0.85);
 
         if (Preference.autoScaleFontSize) {
             FontRef.scaleFont(this.labelTitle);
@@ -224,5 +225,10 @@ public class PanelEditDependency extends PanelInterior {
             FontRef.scaleFont(this.labelDependency);
             FontRef.scaleFont(this.labelSave);
         }
+    }
+
+    @Override
+    public PanelPrime getPanelParent() {
+        return this.panelEdit;
     }
 }

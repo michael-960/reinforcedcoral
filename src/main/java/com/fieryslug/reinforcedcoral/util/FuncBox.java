@@ -3,11 +3,15 @@ package com.fieryslug.reinforcedcoral.util;
 
 import com.fieryslug.reinforcedcoral.core.Team;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -119,6 +123,25 @@ public class FuncBox {
         return res;
     }
 
+    public static void copy(String path, String pathDest, boolean external) {
+        if (external) {
+            try {
+                FileUtils.copyFile(new File(path), new File(pathDest));
+            } catch (Exception e) {
+                System.out.println("Error occured while copying " + path + " to " + pathDest);
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                FileUtils.copyInputStreamToFile(FuncBox.class.getResourceAsStream(path), new File(pathDest));
+
+            } catch (Exception e) {
+                System.out.println("Error occurred while copying " + path + " to " + pathDest);
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public static Image resizeImage(Image image, int x, int y) {
         BufferedImage bimage = MediaRef.toBufferedImage(image);
@@ -161,7 +184,22 @@ public class FuncBox {
     */
 
     public static InputStream inputStreamFromPath(String path) {
-        return FuncBox.class.getResourceAsStream(path);
+        return inputStreamFromPath(path, false);
+    }
+
+    public static InputStream inputStreamFromPath(String path, boolean external) {
+        if (external) {
+            File file = new File(path);
+            try {
+                return new FileInputStream(file);
+            } catch (Exception e) {
+                System.out.println("Error occurred while loading file " + file.getPath());
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return FuncBox.class.getResourceAsStream(path);
+        }
     }
 
     public static void listAllFonts() {
@@ -203,6 +241,12 @@ public class FuncBox {
         lineBorderCache.put(info, border);
         return border;
 
+    }
+
+    public static Border getCompoundLineBorder(Color color, int size) {
+        Border outer = BorderFactory.createLineBorder(color, size);
+        Border inner = new EmptyBorder(-2, -2, -2, -2);
+        return new CompoundBorder(outer, null);
     }
 
     public static String getIp() {
@@ -319,6 +363,54 @@ public class FuncBox {
             teams.add(new Team(i + 1));
         }
         return teams;
+
+    }
+
+    public static String getRawFileName(String path) {
+
+        int ind = path.lastIndexOf('/');
+        if(ind == -1) return path;
+
+        return path.substring(ind+1);
+
+
+    }
+
+    public static void saveImage(Image image, File file) {
+
+        BufferedImage bimage = toBufferedImage(image);
+        String name = getRawFileName(file.getName());
+        try {
+            if (name.endsWith(".png")) {
+                ImageIO.write(bimage, "png", file);
+            }
+            if (name.endsWith(".jpg")) {
+                ImageIO.write(bimage, "jpg", file);
+            }
+        } catch (Exception e) {
+            System.out.println("Error occurred while saving image " + file.getPath());
+            e.printStackTrace();
+        }
+
+    }
+
+    public static String removeHtmlTag(String html) {
+
+        if(html.startsWith("<html>") && html.endsWith("</html>"))
+            return html.substring(6, html.length() - 7);
+        return html;
+
+    }
+
+    public static String toValidFileName(String text) {
+
+        String r = text.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+
+        if (r.length() == 0) {
+            return "0";
+        }
+        else
+            return r;
 
     }
 

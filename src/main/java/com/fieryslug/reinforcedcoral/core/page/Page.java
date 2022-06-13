@@ -23,6 +23,8 @@ public class Page {
 
     public ArrayList<Widget> widgets;
 
+    private Problem parentProb;
+
     public Page(String path) {
 
         //this.htmlText = FuncBox.readFile(PATH + path);
@@ -247,6 +249,29 @@ public class Page {
 
 
         return jsonPage;
+    }
+
+    public Page toNormalForm() {
+        return new Page(exportAsJson());
+    }
+
+    public Problem getParentProb() {
+        return parentProb;
+    }
+
+    public void setParentProb(Problem parentProb) {
+        this.parentProb = parentProb;
+    }
+
+    public static Page createEmptyPage(boolean isFinal) {
+
+        JSONObject json = new JSONObject();
+        json.put("type", Reference.MAGIC_PRIME);
+        json.put("elements", new JSONArray());
+        json.put("final", isFinal);
+
+        return new Page(json);
+
     }
 
     /*

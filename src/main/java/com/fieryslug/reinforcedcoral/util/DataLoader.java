@@ -108,7 +108,7 @@ public class DataLoader {
             System.out.println("\nloading problem set " + setPath);
             ProblemSet set = new ProblemSet(setPath);
             set.acquireProblemSet();
-
+            set.loadResources();
             this.problemSets.add(set);
 
         }
@@ -131,6 +131,7 @@ public class DataLoader {
                 boolean b = true;
                 try {
                     set.acquireProblemSet();
+                    set.loadResources();
                 } catch (Exception e) {
                     System.out.println("an error occurred while loading " + setId + ": ");
                     e.printStackTrace();
@@ -175,6 +176,16 @@ public class DataLoader {
             writeToFile(EXTERNAL_FOLDER + "/problemsets/index.json", jsonIndex.toString(2), true);
         }
 
+
+    }
+
+    public void deleteTempFiles() {
+
+        File file = new File(EXTERNAL_FOLDER + "/.tmp");
+        if (file.exists()) {
+            deleteDirectory(file);
+        }
+        checkFile(EXTERNAL_FOLDER + "/.tmp", true);
 
     }
 }

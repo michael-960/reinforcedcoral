@@ -5,6 +5,10 @@ import com.fieryslug.reinforcedcoral.panel.PanelInterior;
 import com.fieryslug.reinforcedcoral.panel.PanelPrime;
 import com.fieryslug.reinforcedcoral.util.FuncBox;
 import com.fieryslug.reinforcedcoral.util.TextureHolder;
+import com.fieryslug.reinforcedcoral.util.layout.ModifiedTableLayout;
+
+import java.awt.Panel;
+
 import info.clearthought.layout.TableLayout;
 
 import javax.swing.*;
@@ -14,11 +18,19 @@ public class PanelEdit extends PanelPrime {
     JPanel[] panels;
     PanelInterior panelEditTitle;
     PanelEditGame panelEditGame;
+    PanelEditProblem panelEditProblem;
+    PanelConfirm panelConfirm;
+    PanelAdd panelAdd;
+
+    PanelProperties panelProperties;
 
     PanelInterior currentPanelInterior;
+    private PanelInterior prevPanelInterior;
+
 
     int currInd;
     boolean dirty = false;
+
 
 
     public PanelEdit(FrameCoral parent) {
@@ -30,7 +42,7 @@ public class PanelEdit extends PanelPrime {
     @Override
     protected void initialize() {
         double[][] size = new double[][]{{0.5, 0.5}, {0.2, 0.6, 0.2}};
-        setLayout(new TableLayout(size));
+        setLayout(new ModifiedTableLayout(size));
 
         this.panels = new JPanel[4];
         double[][] size1 = new double[][]{FuncBox.createDivisionArray(4), {0.4, 0.3, 0.3}};
@@ -41,6 +53,10 @@ public class PanelEdit extends PanelPrime {
 
         this.panelEditTitle = new PanelEditTitle(this);
         this.panelEditGame = new PanelEditGame(this);
+        this.panelEditProblem = new PanelEditProblem(this);
+        panelConfirm = new PanelConfirm(this);
+        panelProperties = new PanelProperties(this);
+        panelAdd = new PanelAdd(this);
 
         this.currentPanelInterior = this.panelEditTitle;
 
@@ -56,7 +72,7 @@ public class PanelEdit extends PanelPrime {
         this.dirty = false;
         this.currentPanelInterior.enter();
         add(this.currentPanelInterior, "0, 1, 1, 1");
-        System.out.println("in panel edit: width " + getWidth());
+        //System.out.println("in panel edit: width " + getWidth());
         applyTexture(TextureHolder.getInstance());
         refresh();
     }
@@ -64,8 +80,12 @@ public class PanelEdit extends PanelPrime {
     @Override
     public void exit() {
 
-        remove(this.currentPanelInterior);
-        this.currentPanelInterior.exit();
+
+        //this.currentPanelInterior.exit();
+        if(this.prevPanelInterior != null) {
+            this.prevPanelInterior.exit();
+            remove(this.prevPanelInterior);
+        }
     }
 
     @Override
@@ -88,5 +108,15 @@ public class PanelEdit extends PanelPrime {
             }
         }
         this.currentPanelInterior.applyTexture(holder);
+    }
+
+    void setCurrentPanelInterior(PanelInterior currentPanelInterior) {
+        this.prevPanelInterior = this.currentPanelInterior;
+        this.currentPanelInterior = currentPanelInterior;
+
+    }
+
+    void switchSelf() {
+        parent.switchPanel(this, this);
     }
 }

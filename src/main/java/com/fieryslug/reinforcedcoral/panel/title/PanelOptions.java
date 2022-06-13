@@ -2,12 +2,12 @@ package com.fieryslug.reinforcedcoral.panel.title;
 
 import com.fieryslug.reinforcedcoral.core.Team;
 import com.fieryslug.reinforcedcoral.panel.PanelInterior;
+import com.fieryslug.reinforcedcoral.panel.PanelPrime;
 import com.fieryslug.reinforcedcoral.panel.subpanel.PanelTeam;
 import com.fieryslug.reinforcedcoral.util.FontRef;
 import com.fieryslug.reinforcedcoral.util.FuncBox;
 import com.fieryslug.reinforcedcoral.util.Preference;
-import com.fieryslug.reinforcedcoral.util.Reference;
-import com.fieryslug.reinforcedcoral.util.SpinnerLayout;
+import com.fieryslug.reinforcedcoral.util.layout.SpinnerLayout;
 import com.fieryslug.reinforcedcoral.util.TextureHolder;
 import com.fieryslug.reinforcedcoral.widget.button.ButtonCoral;
 
@@ -20,14 +20,7 @@ import java.awt.event.ItemListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import info.clearthought.layout.TableLayout;
@@ -53,7 +46,7 @@ public class PanelOptions extends PanelInterior {
     JSpinner spinnerTeams;
     JTextField fieldMultiplier;
     JTextField fieldTeams;
-    BasicArrowButton[] buttons;
+    JButton[] buttons;
 
     JToggleButton toggleScale;
 
@@ -104,22 +97,24 @@ public class PanelOptions extends PanelInterior {
         this.fieldMultiplier.setHorizontalAlignment(SwingConstants.CENTER);
         this.fieldMultiplier.setEditable(false);
 
-        BasicArrowButton button = (BasicArrowButton)(this.spinnerMultiplier.getComponent(0));
+        JButton button = (JButton)(this.spinnerMultiplier.getComponent(0));
         button.setBackground(holder.getColor("teamu"));
         button.setFocusPainted(false);
         button.setFocusable(false);
         button.setForeground(holder.getColor("teamu_text"));
-        button.setDirection(SwingConstants.EAST);
+        if(button instanceof BasicArrowButton)
+            ((BasicArrowButton)button).setDirection(SwingConstants.EAST);
         button.setBorderPainted(false);
-        BasicArrowButton button1 = (BasicArrowButton)(this.spinnerMultiplier.getComponent(1));
+        JButton button1 = (JButton)(this.spinnerMultiplier.getComponent(1));
         button1.setBackground(holder.getColor("teamu"));
         button1.setFocusPainted(false);
         button1.setFocusable(false);
         button1.setForeground(holder.getColor("text"));
-        button1.setDirection(SwingConstants.WEST);
+        if(button instanceof BasicArrowButton)
+            ((BasicArrowButton)button1).setDirection(SwingConstants.WEST);
         button1.setBorderPainted(false);
 
-        this.spinnerTeams = new JSpinner(new SpinnerNumberModel(4, 3, 12, 1)) {
+        this.spinnerTeams = new JSpinner(new SpinnerNumberModel(4, 1, 12, 1)) {
             @Override
             public void setLayout(LayoutManager layoutManager) {
                 super.setLayout(new SpinnerLayout());
@@ -134,22 +129,24 @@ public class PanelOptions extends PanelInterior {
         this.fieldTeams.setForeground(holder.getColor("text"));
         this.fieldTeams.setEditable(false);
 
-        BasicArrowButton button11 = (BasicArrowButton)(this.spinnerTeams.getComponent(0));
+        JButton button11 = (JButton) (this.spinnerTeams.getComponent(0));
         button11.setBackground(holder.getColor("teamu"));
         button11.setFocusPainted(false);
         button11.setFocusable(false);
         button11.setForeground(holder.getColor("text"));
-        button11.setDirection(SwingConstants.EAST);
+        if(button11 instanceof BasicArrowButton)
+            ((BasicArrowButton) button11).setDirection(SwingConstants.EAST);
         button11.setBorderPainted(false);
-        BasicArrowButton button12 = (BasicArrowButton)(this.spinnerTeams.getComponent(1));
+        JButton button12 = (JButton)(this.spinnerTeams.getComponent(1));
         button12.setBackground(holder.getColor("teamu"));
         button12.setFocusPainted(false);
         button12.setFocusable(false);
         button12.setForeground(holder.getColor("text"));
-        button12.setDirection(SwingConstants.WEST);
+        if(button12 instanceof BasicArrowButton)
+            ((BasicArrowButton) button12).setDirection(SwingConstants.WEST);
         button12.setBorderPainted(false);
 
-        this.buttons = new BasicArrowButton[]{button, button1, button11, button12};
+        this.buttons = new JButton[]{button, button1, button11, button12};
 
 
 
@@ -251,7 +248,7 @@ public class PanelOptions extends PanelInterior {
             field.setFont(panelTeam.labelName.getFont());
             field.setAlignmentX(CENTER_ALIGNMENT);
             //field.setBorder(null);
-            field.setBorder(FuncBox.getLineBorder(Reference.WHITE, 3));
+            field.setBorder(FuncBox.getLineBorder(TextureHolder.getInstance().getColor("edit_border"), 3));
             field.setOpaque(false);
             field.setForeground(panelTeam.labelName.getForeground());
             this.panelFieldMap.put(panelTeam, field);
@@ -315,13 +312,13 @@ public class PanelOptions extends PanelInterior {
                     field.setForeground(holder.getColor("teamu_text"));
                 else
                     field.setForeground(holder.getColor("teamd_text"));
-                field.setBorder(FuncBox.getLineBorder(Reference.WHITE, 3));
+                field.setBorder(FuncBox.getLineBorder(holder.getColor("edit_border"), 3));
 
             }
         } catch (Exception e) {
 
         }
-        for (BasicArrowButton button : this.buttons) {
+        for (JButton button : this.buttons) {
             button.setBackground(holder.getColor("teamu"));
         }
     }
@@ -391,5 +388,10 @@ public class PanelOptions extends PanelInterior {
                 FontRef.scaleFont(field);
             }
         }
+    }
+
+    @Override
+    public PanelPrime getPanelParent() {
+        return this.panelTitle;
     }
 }

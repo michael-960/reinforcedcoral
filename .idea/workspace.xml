@@ -9,6 +9,10 @@
     <list default="true" id="351e7919-2d3b-43af-9078-aedc18c98eec" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/fieryslug/reinforcedcoral/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fieryslug/reinforcedcoral/Main.java" afterDir="false" />
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fieryslug/reinforcedcoral/panel/edit/PanelEditDependency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fieryslug/reinforcedcoral/panel/edit/PanelEditDependency.java" afterDir="false" />
+>>>>>>> bb80212994d2236d5ef5b398e37636b1bbdfc694
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -69,8 +73,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -87,7 +91,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="aspect.path.notification.shown" value="true" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+=======
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/coral/problemsets/oblivion1_clone/.media" />
+>>>>>>> bb80212994d2236d5ef5b398e37636b1bbdfc694
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -98,9 +106,6 @@
     <property name="settings.editor.selected.configurable" value="reference.settings.project.statistic.project.settings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/res/fonts" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.fieryslug.reinforcedcoral.core.problem" />
       <recent name="com.fieryslug.reinforcedcoral.panel.title" />
@@ -109,11 +114,14 @@
       <recent name="com.fieryslug.reinforcedcoral.minigame.snake" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/coral/problemsets/oblivion1_clone/.media" />
+      <recent name="$PROJECT_DIR$/coral/problemsets" />
       <recent name="$PROJECT_DIR$/coral/problemsets/obliv" />
       <recent name="$PROJECT_DIR$/coral/problemsets/oblivion3" />
-      <recent name="$PROJECT_DIR$/coral/problemsets" />
       <recent name="$PROJECT_DIR$/coral/problemsets/oblivion2" />
-      <recent name="$PROJECT_DIR$/coral/problemsets/oblivion1" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/res/fonts" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -138,7 +146,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.gradle_reinforcedcoral [run]">
+  <component name="RunManager" selected="Gradle.gradle_reinforcedcoral [jar]">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -265,8 +273,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.gradle_reinforcedcoral [run]" />
         <item itemvalue="Gradle.gradle_reinforcedcoral [jar]" />
+        <item itemvalue="Gradle.gradle_reinforcedcoral [run]" />
         <item itemvalue="Gradle.gradle_reinforcedcoral [clean]" />
         <item itemvalue="JAR Application.reinforcedcoral-1.0-SNAPSHOT.jar" />
         <item itemvalue="Gradle.gradle_reinforcedcoral [runJar]" />
@@ -382,8 +390,21 @@
       <workItem from="1566487589933" duration="3823000" />
       <workItem from="1566521360625" duration="819000" />
       <workItem from="1566522963232" duration="1761000" />
+<<<<<<< HEAD
       <workItem from="1566708787615" duration="64000" />
       <workItem from="1566715569699" duration="4129000" />
+=======
+      <workItem from="1566574488409" duration="168000" />
+      <workItem from="1566627182668" duration="26180000" />
+      <workItem from="1566693674379" duration="7076000" />
+      <workItem from="1566728726779" duration="22786000" />
+      <workItem from="1566782911564" duration="9477000" />
+      <workItem from="1566807394813" duration="15152000" />
+      <workItem from="1566827158967" duration="9469000" />
+      <workItem from="1566888298314" duration="28123000" />
+      <workItem from="1566953153283" duration="25186000" />
+      <workItem from="1566990413255" duration="14128000" />
+>>>>>>> bb80212994d2236d5ef5b398e37636b1bbdfc694
     </task>
     <servers />
   </component>
